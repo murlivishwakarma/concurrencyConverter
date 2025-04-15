@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import {InputBox} from './components'
 import useCurrencyInfo from './hooks/useCurrencyInfo'
+import calculateData from './hooks/calculateData'
 
 function App() {
   
@@ -8,9 +9,11 @@ function App() {
   const [from, setFrom] = useState("usd")
   const [to, setTo] = useState("inr")
   const [convertedAmount, setConvertedAmount] = useState(0)
-  const currencyInfo = useCurrencyInfo(from)
+  const currencyInfo = useCurrencyInfo()
+  const  rate = calculateData(from, to)
   const options = Object.keys(currencyInfo)
-
+  console.log(rate);
+ 
   const swap = () => {
     setFrom(to)
     setTo(from)
@@ -19,7 +22,8 @@ function App() {
   }
   
   const convert = () => {
-    setConvertedAmount(amount * currencyInfo[to])
+     
+    setConvertedAmount(amount *rate )
   }
 
   return (
@@ -43,9 +47,16 @@ function App() {
                             label="From"
                             amount={amount}
                             currencyOptions={options}
-                            onCurrencyChange={(currency) => setAmount(amount)}
+                            onCurrencyChange={(currency) => {
+                               
+                                setAmount(amount)
+                                setFrom(currency)
+                            }
+                               
+                            }
                             selectCurrency={from}
                             onAmountChange={(amount) => setAmount(amount)}
+                            amountDisable={false}
                         />
                     </div>
                     <div className="relative w-full h-0.5">
@@ -63,7 +74,7 @@ function App() {
                             amount={convertedAmount}
                             currencyOptions={options}
                             onCurrencyChange={(currency) => setTo(currency)}
-                            selectCurrency={from}
+                            selectCurrency={to}
                             amountDisable
                         />
                     </div>
