@@ -1,6 +1,4 @@
 import {useEffect, useState} from "react"
-
-
 function useCurrencyInfo(){
     const [data, setData] = useState({})
    var myHeaders = new Headers();
