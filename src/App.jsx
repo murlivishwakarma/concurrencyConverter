@@ -12,7 +12,6 @@ function App() {
   const [from, setFrom] = useState("usd");
   const [to, setTo] = useState("inr");
   const [convertedAmount, setConvertedAmount] = useState(0);
-
   const rate = calculateRate(from, to, currencyInfo);
  
   const swap = () => {
@@ -27,7 +26,7 @@ function App() {
       setConvertedAmount((amount * rate).toFixed(2));
     }
   };
-  
+
   return (
     <div
         className="w-full h-screen flex flex-wrap justify-center items-center bg-cover bg-no-repeat"
