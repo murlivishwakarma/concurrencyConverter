@@ -1,18 +1,19 @@
 import { useState } from 'react'
 import {InputBox} from './components'
 import useCurrencyInfo from './hooks/useCurrencyInfo'
-import calculateData from './hooks/calculateData'
+import calculateRate from './hooks/calculateRate'
 
 function App() {
   
-  const [amount, setAmount] = useState(0)
-  const [from, setFrom] = useState("usd")
-  const [to, setTo] = useState("inr")
-  const [convertedAmount, setConvertedAmount] = useState(0)
-  const currencyInfo = useCurrencyInfo()
-  const  rate = calculateData(from, to)
-  const options = Object.keys(currencyInfo)
-  console.log(rate);
+  const currencyInfo = useCurrencyInfo();
+  const options = Object.keys(currencyInfo);
+
+  const [amount, setAmount] = useState(1);
+  const [from, setFrom] = useState("usd");
+  const [to, setTo] = useState("inr");
+  const [convertedAmount, setConvertedAmount] = useState(0);
+
+  const rate = calculateRate(from, to, currencyInfo);
  
   const swap = () => {
     setFrom(to)
@@ -22,10 +23,11 @@ function App() {
   }
   
   const convert = () => {
-     
-    setConvertedAmount(amount *rate )
-  }
-
+    if (rate) {
+      setConvertedAmount((amount * rate).toFixed(2));
+    }
+  };
+  
   return (
     <div
         className="w-full h-screen flex flex-wrap justify-center items-center bg-cover bg-no-repeat"
